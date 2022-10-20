@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ordem_servico/models/user.dart';
-import 'package:ordem_servico/provider/users.dart';
+import 'package:ordem_servico/models/service.dart';
+import 'package:ordem_servico/provider/services.dart';
 import 'package:provider/provider.dart';
 
-class UserForm extends StatelessWidget{
+class ServiceForm extends StatelessWidget{
 
   final _form = GlobalKey<FormState>();
   final Map<String, dynamic> _formData = {};
@@ -12,7 +12,7 @@ class UserForm extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Formulário de Prestador de Serviço'),
+        title: Text('Formulário de Serviço'),
         actions: <Widget>[
           IconButton(
             onPressed: (){
@@ -21,11 +21,11 @@ class UserForm extends StatelessWidget{
 
               if(isValid){
                 _form.currentState?.save();
-                Provider.of<Users>(context, listen: false).put(
-                  User(
+                Provider.of<Services>(context, listen: false).put(
+                  Service(
                     id: _formData['id'],
                     name: _formData['name'],
-                    email: _formData['email'],
+                    valor: _formData['valor'],
                     avatarUrl: _formData['avatarUrl'],
                   ),
                 );
@@ -58,8 +58,8 @@ class UserForm extends StatelessWidget{
                 onSaved: (value) => _formData['name'] = value!,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'E-mail'),
-                onSaved: (value) => _formData['email'] = value!,
+                decoration: InputDecoration(labelText: 'Valor'),
+                onSaved: (value) => _formData['valor'] = value!,
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'URL Avatar'),

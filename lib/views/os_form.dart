@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ordem_servico/models/user.dart';
-import 'package:ordem_servico/provider/users.dart';
+import 'package:ordem_servico/models/os.dart';
+import 'package:ordem_servico/provider/os.dart';
 import 'package:provider/provider.dart';
 
-class UserForm extends StatelessWidget{
+class OrdemServiceForm extends StatelessWidget{
 
   final _form = GlobalKey<FormState>();
   final Map<String, dynamic> _formData = {};
@@ -12,7 +12,7 @@ class UserForm extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Formulário de Prestador de Serviço'),
+        title: Text('Formulário de Ordem Serviço'),
         actions: <Widget>[
           IconButton(
             onPressed: (){
@@ -21,12 +21,12 @@ class UserForm extends StatelessWidget{
 
               if(isValid){
                 _form.currentState?.save();
-                Provider.of<Users>(context, listen: false).put(
-                  User(
+                Provider.of<OrdemServices>(context, listen: false).put(
+                  Os(
                     id: _formData['id'],
-                    name: _formData['name'],
-                    email: _formData['email'],
-                    avatarUrl: _formData['avatarUrl'],
+                    idService: _formData['idService'],
+                    idPrestador: _formData['idPrestador'],
+                    quantidade: _formData['quantidade'],
                   ),
                 );
                 Navigator.of(context).pop();
@@ -43,27 +43,23 @@ class UserForm extends StatelessWidget{
           child: Column(
             children: <Widget>[
               TextFormField(
-                decoration: InputDecoration(labelText: 'Nome'),
+                decoration: InputDecoration(labelText: 'idService'),
                 validator: (value) {
                   if(value == null || value.trim().isEmpty){
-                    return 'Nome inválido';
-                  }
-
-                  if(value.trim().length < 3){
-                    return 'Nome muito pequeno. No minimo 3 letras.';
+                    return 'idService inválido';
                   }
 
                   return null;
                 },
-                onSaved: (value) => _formData['name'] = value!,
+                onSaved: (value) => _formData['idService'] = value!,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'E-mail'),
-                onSaved: (value) => _formData['email'] = value!,
+                decoration: InputDecoration(labelText: 'idPrestador'),
+                onSaved: (value) => _formData['idPrestador'] = value!,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'URL Avatar'),
-                onSaved: (value) => _formData['avatarUrl'] = value!,
+                decoration: InputDecoration(labelText: 'quantidade'),
+                onSaved: (value) => _formData['quantidade'] = value!,
               ),                            
             ]
           )
